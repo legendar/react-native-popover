@@ -106,6 +106,8 @@ However, as an alternative, I recommend you use [@brentvatne](https://github.com
 Prop              | Type     | Optional | Default     | Description
 ----------------- | -------- | -------- | ----------- | -----------
 isVisible         | bool     | Yes      | false       | Show/Hide the popover
+arrowSize         | object   | Yes      | {width: 10, height: 5}  | Set the arrow size
+contentStyle      | object   | Yes      | see preview | define styles for the popover
 fromRect          | rect     | No       | {}          | Rectangle at which to anchor the popover
 displayArea       | rect     | Yes      | screen rect | Area where the popover is allowed to be displayed
 placement         | string   | Yes      | 'auto'      | How to position the popover - top &#124; bottom &#124; left &#124; right &#124; auto. When 'auto' is specified, it will determine the ideal placement so that the popover is fully visible within `displayArea`.
