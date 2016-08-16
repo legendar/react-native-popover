@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Dimensions,
   Animated,
-  Text,
   TouchableWithoutFeedback,
   View,
   Easing
@@ -82,7 +81,7 @@ var Popover = React.createClass({
       fromRect: this.props.fromRect,
       arrowSize: this.getArrowSize(placement),
       contentSize,
-    }
+    };
 
     switch (placement) {
       case 'top':
@@ -108,7 +107,7 @@ var Popover = React.createClass({
       popoverOrigin,
       anchorPoint,
       placement: 'top',
-    }
+    };
   },
   computeBottomGeometry({displayArea, fromRect, contentSize, arrowSize}) {
     var popoverOrigin = new Point(
@@ -121,7 +120,7 @@ var Popover = React.createClass({
       popoverOrigin,
       anchorPoint,
       placement: 'bottom',
-    }
+    };
   },
   computeLeftGeometry({displayArea, fromRect, contentSize, arrowSize}) {
     var popoverOrigin = new Point(fromRect.x - contentSize.width - arrowSize.width,
@@ -133,7 +132,7 @@ var Popover = React.createClass({
       popoverOrigin,
       anchorPoint,
       placement: 'left',
-    }
+    };
   },
   computeRightGeometry({displayArea, fromRect, contentSize, arrowSize}) {
     var popoverOrigin = new Point(fromRect.x + fromRect.width + arrowSize.width,
@@ -145,7 +144,7 @@ var Popover = React.createClass({
       popoverOrigin,
       anchorPoint,
       placement: 'right',
-    }
+    };
   },
   computeAutoGeometry({displayArea, contentSize}) {
     var placementsToTry = ['left', 'right', 'bottom', 'top'];
@@ -167,7 +166,7 @@ var Popover = React.createClass({
   },
   getArrowSize(placement) {
     var size = this.props.arrowSize;
-    switch(placement) {
+    switch (placement) {
       case 'left':
       case 'right':
         return new Size(size.height, size.width);
@@ -191,7 +190,7 @@ var Popover = React.createClass({
     }
   },
   getArrowDynamicStyle() {
-    var {anchorPoint, popoverOrigin} = this.state;
+    var {anchorPoint, popoverOrigin, contentSize} = this.state;
     var arrowSize = this.props.arrowSize;
 
     // Create the arrow from a rectangle with the appropriate borderXWidth set
@@ -202,15 +201,15 @@ var Popover = React.createClass({
     var height = arrowSize.height * 2 + 2;
 
     return {
-      left: anchorPoint.x - popoverOrigin.x - width / 2,
-      top: anchorPoint.y - popoverOrigin.y - height / 2,
+      top: popoverOrigin.y - height,
+      left: popoverOrigin.x + (contentSize.width - width / 2) / 2,
       width: width,
       height: height,
       borderTopWidth: height / 2,
       borderRightWidth: width / 2,
       borderBottomWidth: height / 2,
       borderLeftWidth: width / 2,
-    }
+    };
   },
   getTranslateOrigin() {
     var {contentSize, popoverOrigin, anchorPoint} = this.state;
@@ -251,7 +250,7 @@ var Popover = React.createClass({
     var commonConfig = {
       duration: animDuration,
       easing: show ? Easing.out(Easing.back()) : Easing.inOut(Easing.quad),
-    }
+    };
 
     Animated.parallel([
       Animated.timing(values.fade, {
@@ -321,7 +320,7 @@ var Popover = React.createClass({
       popover,
       arrow,
       content,
-    }
+    };
   },
   render() {
     if (!this.props.isVisible && !this.state.isTransitioning) {
@@ -350,11 +349,11 @@ var Popover = React.createClass({
             top: popoverOrigin.y,
             left: popoverOrigin.x,
             }, ...extendedStyles.popover]}>
-            <Animated.View style={arrowStyle}/>
-            <Animated.View ref='content' onLayout={this.measureContent} style={contentStyle}>
+            <Animated.View ref="content" onLayout={this.measureContent} style={contentStyle}>
               {this.props.children}
             </Animated.View>
           </Animated.View>
+          <Animated.View style={arrowStyle}/>
         </View>
       </TouchableWithoutFeedback>
     );
