@@ -235,9 +235,20 @@ var Popover = React.createClass({
       }
     }
   },
+  componentWillUnmount() {
+    if (this.animation) {
+      this.animation.stop();
+      this.animation = null;
+    }
+  },
   _startAnimation({show}) {
     var handler = this.props.startCustomAnimation || this._startDefaultAnimation;
-    handler({show, doneCallback: () => this.setState({isTransitioning: false})});
+    var doneCallback = () => {
+      this.setState({isTransitioning: false});
+      this.animation = null;
+    };
+
+    handler({show, doneCallback});
     this.setState({isTransitioning: true});
   },
   _startDefaultAnimation({show, doneCallback}) {
@@ -254,7 +265,7 @@ var Popover = React.createClass({
       easing: show ? Easing.out(Easing.back()) : Easing.inOut(Easing.quad),
     };
 
-    Animated.parallel([
+    this.animation = Animated.parallel([
       Animated.timing(values.fade, {
         toValue: show ? 1 : 0,
         ...commonConfig,
@@ -267,7 +278,9 @@ var Popover = React.createClass({
         toValue: show ? 1 : 0,
         ...commonConfig,
       })
-    ]).start(doneCallback);
+    ]);
+
+    this.animation.start(doneCallback);
   },
   _getDefaultAnimatedStyles() {
     // If there's a custom animation handler,
