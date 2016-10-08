@@ -346,19 +346,21 @@ var Popover = React.createClass({
     arrowStyle = [...arrowStyle, {transform: arrowTransform}];
 
     return (
-      <View style={[styles.container, contentSizeAvailable && styles.containerVisible]}>
-        <Animated.View style={[styles.popover, {
-          top: popoverOrigin.y,
-          left: popoverOrigin.x,
-          }, ...extendedStyles.popover]}>
-          <Animated.View ref="content" onLayout={this.measureContent} style={contentStyle}>
-            <TouchableWithoutFeedback onPress={this.props.onClose}>
-              {this.props.children}
-            </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={this.props.onClose}>
+        <View style={[styles.container, contentSizeAvailable && styles.containerVisible]}>
+          <Animated.View style={[styles.popover, {
+            top: popoverOrigin.y,
+            left: popoverOrigin.x,
+            }, ...extendedStyles.popover]}>
+            <Animated.View ref="content" onLayout={this.measureContent} style={contentStyle}>
+              <TouchableWithoutFeedback onPress={this.props.onClose}>
+                {this.props.children}
+              </TouchableWithoutFeedback>
+            </Animated.View>
           </Animated.View>
-        </Animated.View>
-        <Animated.View style={arrowStyle}/>
-      </View>
+          <Animated.View style={arrowStyle}/>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 });
